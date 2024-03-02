@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>API_Resorty</RootNamespace>
+    <UserSecretsId>1045a36f-2631-450a-aab1-e1f0d450dc3c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
