@@ -1,53 +1,113 @@
-name: GitHub Actions Demo
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+
+
+name: Build and deploy ASP.Net Core app to Azure Web App - APIResorty
+
+
 
 on:
+
   push:
+
     branches:
+
       - master
+
+  workflow_dispatch:
+
+
+
 jobs:
+
   build:
-    runs-on: ubuntu-latest
+
+    runs-on: windows-latest
+
+
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          node-version: 20
-      
-      - name: Setup .Net
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '7.0'
-          node-version: 20
 
-      - name: Build
+      - uses: actions/checkout@v4
+
+
+
+      - name: Set up .NET Core
+
+        uses: actions/setup-dotnet@v1
+
+        with:
+
+          dotnet-version: '3.1'
+
+          include-prerelease: true
+
+
+
+      - name: Build with dotnet
+
         run: dotnet build --configuration Release
 
+
+
+      - name: dotnet publish
+
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+
+
+      - name: Upload artifact for deployment job
+
+        uses: actions/upload-artifact@v3
+
+        with:
+
+          name: .net-app
+
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+
+
   deploy:
+
+    runs-on: windows-latest
+
     needs: build
-    runs-on: ubuntu-latest
+
+    environment:
+
+      name: 'production'
+
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          node-version: 20
 
-      - name: Setup .Net
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '7.0'
-          node-version: 20
+      - name: Download artifact from build job
 
-      - name: Build and publish
-        run: |
-          dotnet build --configuration Release
-          dotnet publish -c Release -o ${{ github.workspace }}/publish
-          
-      - name: Deploy to production
-        uses: easingthemes/ssh-deploy@v2
+        uses: actions/download-artifact@v3
+
         with:
+
+          name: .net-app
+
+      
+
+      - name: Deploy to Azure Web App
+
+        id: deploy-to-webapp
+
+        uses: azure/webapps-deploy@v2
+
+        with:
+
           app-name: 'APIResorty'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_2030ec6c7f684188ab8af2321dd8d53b }}  # profil publikacji aplikacji Azure, przechowywany jako sekret w ustawieniach repozytorium
-          package: ./publish
-          
+
+          slot-name: 'production'
+
+          package: .
+
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_2030ec6c7f684188ab8af2321dd8d53b }}
