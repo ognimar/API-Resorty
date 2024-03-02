@@ -47,8 +47,8 @@ jobs:
       - name: Deploy to production
         uses: easingthemes/ssh-deploy@v2
         with:
-          server: ${{ secrets.PRODUCTION_SERVER }}
-          username: ${{ secrets.PRODUCTION_USERNAME }}
-          password: ${{ secrets.PRODUCTION_PASSWORD }}
+          server: ${{ secrets.OGNIMAR\SQLEXPRESS }}
+          username: ${{ secrets.ognimar }}
+          password: ${{ secrets.ognimar }}
           source: ${{ github.workspace }}/publish
           target: '/API-Resorty/*'
