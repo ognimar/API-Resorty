@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'APIResorty'
           slot-name: 'Production'
-          package: .
+          package: "/publish"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_132B33FF994B48A788C4CA0C1A596004 }}
