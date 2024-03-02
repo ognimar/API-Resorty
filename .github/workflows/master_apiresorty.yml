@@ -9,49 +9,33 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: APIResorty
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+
 jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '7.0'
-          include-prerelease: true
-
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  publish:
+    runs-on: ubuntu-latest
     
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .net-app
+      - uses: actions/checkout@v3
       
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0'
+          
+      - name: Restore
+        run: dotnet restore ./API Resorty.sln
+        
+      - name: Build
+        run: dotnet build ./API Resorty.sln --configuration Release --no-restore
+        
+      - name: Publish
+        run: dotnet publish ./API Resorty.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        
+      - name: Deployment
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'APIResorty'
-          slot-name: 'Production'
-          package: "/publish"
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_132B33FF994B48A788C4CA0C1A596004 }}
