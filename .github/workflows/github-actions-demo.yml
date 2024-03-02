@@ -47,8 +47,7 @@ jobs:
       - name: Deploy to production
         uses: easingthemes/ssh-deploy@v2
         with:
-          server: ${{ secrets.OGNIMAR }}
-          username: ${{ secrets.ognimar }}
-          password: ${{ secrets.ognimar }}
-          source: ${{ github.workspace }}/publish
-          target: '/API-Resorty/*'
+          app-name: <APIResorty>  
+          publish-profile: ${{ secrets.APIRESORTY_7377 }}  # profil publikacji aplikacji Azure, przechowywany jako sekret w ustawieniach repozytorium
+          package: ./publish
+          
