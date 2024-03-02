@@ -47,7 +47,7 @@ jobs:
       - name: Deploy to production
         uses: easingthemes/ssh-deploy@v2
         with:
-          server: ${{ secrets.OGNIMAR\SQLEXPRESS }}
+          server: ${{ secrets.OGNIMAR }}
           username: ${{ secrets.ognimar }}
           password: ${{ secrets.ognimar }}
           source: ${{ github.workspace }}/publish
