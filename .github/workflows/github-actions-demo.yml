@@ -47,7 +47,7 @@ jobs:
       - name: Deploy to production
         uses: easingthemes/ssh-deploy@v2
         with:
-          app-name: <APIResorty>  
-          publish-profile: ${{ secrets.APIResorty - Web Deploy }}  # profil publikacji aplikacji Azure, przechowywany jako sekret w ustawieniach repozytorium
+          app-name: 'APIResorty'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_2030ec6c7f684188ab8af2321dd8d53b }}  # profil publikacji aplikacji Azure, przechowywany jako sekret w ustawieniach repozytorium
           package: ./publish
           
