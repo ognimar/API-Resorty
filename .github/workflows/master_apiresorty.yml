@@ -8,7 +8,7 @@ on:
     branches:
       - master
   workflow_dispatch:
-
+  
 jobs:
   build:
     runs-on: windows-latest
@@ -54,4 +54,4 @@ jobs:
           app-name: 'APIResorty'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7261CF92DF37401CA5C9B458A700D7E1 }}
+          publish-profile: ${{ secrets.AZURE_NAME_PUBLISHP_ROFILE }}
