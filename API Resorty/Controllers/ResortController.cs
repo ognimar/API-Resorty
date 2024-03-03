@@ -1,8 +1,6 @@
 ﻿using API_Resorty.Data;
 using API_Resorty.Entities;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.EntityFrameworkCore;
 
 
@@ -29,7 +27,7 @@ namespace API_Resorty.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Resort>>> AddNewResort(Resort ressort)
         {
-
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
             Context.Resorts.Add(ressort);
             await Context.SaveChangesAsync();
             return Ok(ressort.Id);
@@ -66,7 +64,7 @@ namespace API_Resorty.Controllers
         }
 
         [HttpOptions]
-        public IActionResult Options()
+        private IActionResult Options()
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
             Response.Headers.Add("Allow", "OPTIONS,GET,POST,PUT,DELETE");
