@@ -39,4 +39,4 @@ jobs:
           app-name: 'ThatsIt'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_55F7717EDA45477892A4A3266606352F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D14715836C3C4BABBA7BE75629760033 }}
